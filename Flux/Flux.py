@@ -11,10 +11,10 @@ class Flux():
     '''
     will open the connection and also handle the writes
     '''
-    def __init__(self, token, org, bucket, db_url):
+    def __init__(self, token, org, db_url):
 
         self.client = InfluxDBClient(url=db_url, token=token)
-        self.bucket = bucket
+        
         self.org = org
 
     def Close(self):
@@ -22,9 +22,10 @@ class Flux():
 
 class Writer(Flux):
     
-    def __init__(self, token, org, bucket, db_url):
+    def __init__(self, token, org, db_url, bucket):
         #create writer that can be reused, inherits the client from the parent
-        Flux.__init__(self, token, org, bucket, db_url)
+        Flux.__init__(self, token, org, db_url)
+        self.bucket = bucket
         self.write_api = self.client.write_api(write_options=SYNCHRONOUS)
 
     def write_data(self, point):
@@ -34,3 +35,13 @@ class Writer(Flux):
         #close out writer and also insure the parent is called
         self.write_api.close()
         Flux.Close(self)
+
+class Reader(Flux):
+
+    def __init__(self, token, org, db_url):
+
+        Flux.__init__(self, token, org, db_url)
+        self.queryapi = self.client.query_api()
+
+    def read_data(self, query):
+        return self.queryapi.query(query, self.org)
