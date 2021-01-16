@@ -1,6 +1,7 @@
 from influxdb_client import InfluxDBClient
 from influxdb_client.client.write_api import SYNCHRONOUS
 
+
 '''
 Wraps the python influxDB client to make reading and writing a little
 easier. This is intended to be expanded in a Writer and Reader class to help 
@@ -45,3 +46,21 @@ class Reader(Flux):
 
     def read_data(self, query):
         return self.queryapi.query(query, self.org)
+
+def parse_table(table):
+    '''
+    Returns a list of time, value tuples based off the
+    passed in table
+    '''
+    values = {
+        'times': [],
+        'data': []
+    }
+    for record in table:
+        values['name'] = record['_field']
+        values['times'].append(record['_stop'].isoformat())
+        values['data'].append(record['_value'])
+    return values
+
+if __name__ == "__main__":
+    pass

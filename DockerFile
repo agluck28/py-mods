@@ -1,0 +1,12 @@
+FROM python:3.8
+
+WORKDIR /
+
+COPY setup.py doingthings/setup.py
+COPY MongoHelper/ doingthings/MongoHelper/
+COPY PointWriter/ doingthings/PointWriter/
+COPY Query/ doingthings/Query/
+COPY requirements.txt .
+
+RUN pip3 install -r requirements.txt
+RUN pip3 install doingthings/.
