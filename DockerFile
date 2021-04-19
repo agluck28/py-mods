@@ -6,6 +6,9 @@ COPY setup.py doingthings/setup.py
 COPY MongoHelper/ doingthings/MongoHelper/
 COPY PointWriter/ doingthings/PointWriter/
 COPY Query/ doingthings/Query/
+COPY InfluxHelper/ doingthings/InfluxHelper/
+COPY Flux/ doingthings/Flux/
+COPY RabbitHelper doingthings/RabbitHelper
 COPY requirements.txt .
 
 RUN pip3 install -r requirements.txt

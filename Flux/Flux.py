@@ -57,9 +57,10 @@ def parse_table(table):
         'data': []
     }
     for record in table:
-        values['name'] = record['_field']
-        values['times'].append(record['_stop'].isoformat())
-        values['data'].append(record['_value'])
+        values['name'] = record.get_field()
+        values['id'] = record.values.get('deviceId')
+        values['times'].append(record.get_time().isoformat())
+        values['data'].append(record.get_value())
     return values
 
 if __name__ == "__main__":

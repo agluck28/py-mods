@@ -29,7 +29,7 @@ def get_single_room_data(bucket, roomId, device, time_range=(-30, 'm')):
     returns a query that can be used to retrieve data about a single sensor
     '''
     device_query = HelperQuery(bucket, roomId, time_range)
-    device_query.room_data.add_field_filter(device)
+    device_query.room_data.add_tag_filter(device)
 
     return device_query.room_data.query
 
